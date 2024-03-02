@@ -1,10 +1,12 @@
-'use client';
+"use client";
 
-import { NextUIProvider, Input, Card, CardBody } from '@nextui-org/react';
-import { useRef, useState } from 'react';
-import { lookupPhonUS } from './lib/dictionary';
-import { Phoneme, splitPhoneme } from './lib/phon';
-import { ifLinkPhon } from './lib/linkPhon';
+import { NextUIProvider } from "@nextui-org/system";
+import { Input } from "@nextui-org/input";
+import { Card, CardBody } from "@nextui-org/card";
+import { useRef, useState } from "react";
+import { lookupPhonUS } from "./lib/dictionary";
+import { Phoneme, splitPhoneme } from "./lib/phon";
+import { ifLinkPhon } from "./lib/linkPhon";
 
 const Page = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -13,7 +15,7 @@ const Page = () => {
   const [showWord, setShowWord] = useState<JSX.Element[]>([]);
 
   const getPhonString = (phon: Phoneme[]) => {
-    let str = '';
+    let str = "";
     for (let p of phon) {
       str += p.ipa;
     }
@@ -21,14 +23,14 @@ const Page = () => {
   };
 
   const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       if (inputRef.current) {
         wordPhons = [];
         setShowPhon([]);
         setShowWord([]);
 
         const sentence = inputRef.current.value;
-        const words = sentence.trim().split(' ');
+        const words = sentence.trim().split(" ");
         for (let word of words) {
           const phon = await lookupPhonUS(word);
           wordPhons.push(splitPhoneme(phon));
@@ -51,36 +53,36 @@ const Page = () => {
                 className={
                   (i > 0 && (isLink[i - 1] || isLink[i])) ||
                   (i === 0 && isLink[i])
-                    ? 'underline'
-                    : ''
+                    ? "underline"
+                    : ""
                 }
                 key={sw.length}
               >
                 {words[i]}
-              </span>,
+              </span>
             );
           } else {
             sw.push(
               <span
-                className={i > 0 && isLink[i - 1] ? 'underline' : ''}
+                className={i > 0 && isLink[i - 1] ? "underline" : ""}
                 key={sw.length}
               >
                 {words[i][0]}
-              </span>,
+              </span>
             );
             sw.push(<span key={sw.length}>{words[i].slice(1, -1)}</span>);
             sw.push(
-              <span className={isLink[i] ? 'underline' : ''} key={sw.length}>
+              <span className={isLink[i] ? "underline" : ""} key={sw.length}>
                 {words[i][words[i].length - 1]}
-              </span>,
+              </span>
             );
             sw.push(
               <span
-                className={i < words.length - 1 && isLink[i] ? 'underline' : ''}
+                className={i < words.length - 1 && isLink[i] ? "underline" : ""}
                 key={sw.length}
               >
-                {' '}
-              </span>,
+                {" "}
+              </span>
             );
           }
         }
@@ -94,38 +96,38 @@ const Page = () => {
                 className={
                   (i > 0 && (isLink[i - 1] || isLink[i])) ||
                   (i === 0 && isLink[i])
-                    ? 'underline'
-                    : ''
+                    ? "underline"
+                    : ""
                 }
                 key={sp.length}
               >
                 {getPhonString(wordPhons[i])}
-              </span>,
+              </span>
             );
           } else {
             sp.push(
               <span
-                className={i > 0 && isLink[i - 1] ? 'underline' : ''}
+                className={i > 0 && isLink[i - 1] ? "underline" : ""}
                 key={sp.length}
               >
                 {getPhonString(wordPhons[i].slice(0, 1))}
-              </span>,
+              </span>
             );
             sp.push(
               <span key={sp.length}>
                 {getPhonString(wordPhons[i].slice(1, -1))}
-              </span>,
+              </span>
             );
             sp.push(
-              <span className={isLink[i] ? 'underline' : ''} key={sp.length}>
+              <span className={isLink[i] ? "underline" : ""} key={sp.length}>
                 {getPhonString(wordPhons[i].slice(-1))}
-              </span>,
+              </span>
             );
             if (i < words.length - 1) {
               sp.push(
                 <span className="underline" key={sp.length}>
-                  {' '}
-                </span>,
+                  {" "}
+                </span>
               );
             }
           }
