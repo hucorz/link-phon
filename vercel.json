@@ -1,4 +1,3 @@
 {
   "installCommand": "pip install -i https://test.pypi.org/simple/ python-lzo && pip list && npm install"
 }
-
